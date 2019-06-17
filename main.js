@@ -2,13 +2,6 @@ function compareArrays(arr1, arr2) {
   return arr1.length !== arr2.length ? false : arr1.every((element, i) => element === arr2[i]);
 }
 
-/* OLD SOLUTION
-
-function compareArrays( arr1, arr2 ) {
-  return (JSON.stringify(arr1) == JSON.stringify(arr2));
-}
-*/
-
 function sum1(...args) {
   let sum = 0;
   for (let i = 0; i < args.length; i++) {
@@ -21,38 +14,26 @@ const mSum = memorize(sum1, 5);
 
 function memorize(fn, limit) {
   let results = [];
-  return function () {
-    check = results.find(result => compareArrays(result.args, Array.from(arguments)));
-    if (!check) {
-results.push({args: Array.from(arguments), result: fn(...arguments)})
-      if (results.length > limit) {
-        results.pop();
-      }
-      let i = results.length - 1;
-      return results[i].result;
-    } 
-  }
-}
-
-/* OLD SOLUTION
-
-function memorize(fn, limit) {
-  let results = [];
-  return function () {
+  return function() {
     check = results.find(result => compareArrays(result.args, Array.from(arguments)));
     if (check) {
-      return `Результат из памяти: ${check.result}`;
-    } else {
-      results.push({args: Array.from(arguments), result: fn(...arguments)})
-      if (results.length > limit) {
-        results.pop();
-      }
-      let i = results.length - 1;
-      return `Результат не из памяти: ${results[i].result}`;
+      console.log(`Результат из памяти:`);
+      return check.result;
     }
+
+    results.push({ args: Array.from(arguments), result: fn(...arguments) })
+
+    if (results.length > limit) {
+      results.pop();
+    }
+    let i = results.length - 1;
+    console.log(`Результат не из памяти:`)
+    return results[i].result;
   }
 }
-*/
+
+//const sum = memorize((a, b) => a + b, 10)
+//sum(1, 2)
 
 console.log(compareArrays([8, 9], [6])); 
 compareArrays([8, 9, 5, 4], [8, 9, 5, 4, 8, 3, 5]); 
